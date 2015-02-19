@@ -26,11 +26,12 @@ This is file load function for 4 columns file.
 If you need much more or less data columns, you can make another function like this function.
 
 | argument | type | comments | example |
+| --- | --- | --- | --- |
 | rootPath | string | file path | "C:Users:usrname:Documents:" |
 | fileName | string | fileName. extension like ".txt" is not neeeded. | "sample0001" |
 | w0 | string | Name of wave (1st column). This name is up to you. *existing wave name is error. It requires unique name.* |
-| w1 | string Name of wave (2nd column).|
-| w2 | string Name of wave (3rd column).|
-| w3 | string Name of wave (4th column).|
+| w1 | string | Name of wave (2nd column).||
+| w2 | string | Name of wave (3rd column).||
+| w3 | string | Name of wave (4th column).||
 
-example) 'function loadTextFileFor4col("C:Users:usrname:Documents:", "sample0001", "Time", "X", "Y", "Z")`
+example) `loadTextFileFor4col("C:Users:usrname:Documents:", "sample0001", "_Time", "_X", "_Y", "_Z")`
