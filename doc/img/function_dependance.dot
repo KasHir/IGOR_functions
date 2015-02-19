@@ -1,0 +1,21 @@
+// function dependance
+
+digraph function{
+	subgraph cluster_IgorStandardFunction{
+		LoadWave
+		Rename
+		CheckName
+	}
+
+	subgraph cluster_MyFunctions{
+		loadTextFileFor4col
+	}
+
+	loadTextFileFor4col -> {
+		LoadWave;
+		Rename;
+		CheckName;
+	}
+
+
+}
