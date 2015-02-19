@@ -8,6 +8,8 @@ end
 /// Loop functions for Batch
 ///////////////////////////////////////////////////
 function callLoop()
+	init("C:Users:kas:Documents:lab:intern:TDTS:2015-02-18:");
+	
 	loopFunc("ref2")
 	loopFunc("smp2")
 	loopForTrans("ref2", "smp2", "e01_r01", "e01_s01")
@@ -16,8 +18,6 @@ end
 function loopFunc(listName)
 	string listName// = "ref";
 
-	init();
-	
 	variable xMin, xMax
 	
 	variable i	
@@ -93,8 +93,9 @@ function saveFunc(fileName, extension)
 	SavePICT/O/P=IGOR/E=-5/B=288 as fileName+extension
 end
 
-function init()
-	string/G rootPath = "C:Users:kas:Documents:lab:intern:TDTS:2015-02-18:";
+function init(path)
+	string path
+	string/G rootPath = path;
 	string/G label_time = "_Time";
 	string/G label_X = "_X";
 	string/G label_Y = "_Y";
