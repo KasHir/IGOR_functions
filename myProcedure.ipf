@@ -1,15 +1,4 @@
 #pragma rtGlobals=1		// Use modern global access method.
-		
-//loadtextFileAsTDS(fileName);
-//displayTDSGraph(fileName);
-//displayTDS_FFT(fileName);
-//displayTDS_FFT_Range(fileName, 0, 1.2);
-//displayTDS_FFT_Log(fileName);
-
-//displayTrans(sample, ref, sampleID, refID)
-//calcTrans(sampleFileNameList, refSampleNameList, IDofSample, IDofRef)
-//saveFunc(fileName, "_TDS.png")
-
 
 function call()
 	print "called"
@@ -23,10 +12,6 @@ function callLoop()
 	loopFunc("smp2")
 	loopForTrans("ref2", "smp2")
 end
-
-// call these function in command windows (Ctrl + j )
-// * loopFunc()
-// * loopForTrans()
 
 function loopFunc(listName)
 	string listName// = "ref";
@@ -102,16 +87,6 @@ function loopForTrans(listNameR, listNameS)
 	endfor
 end
 
-/////////////////////////////////////////////////////
-
-
-function makeTrans()
-	string fileName
-	calcTrans("s1_dair_0005", "s0_dair_0005", "01_s1", "01_s0");
-	fileName = displayTrans_ID("01_s1","01_s0")
-	saveFunc(fileName, ".png")
-	
-end
 //////////////////////////////////////////////////
 ///// Public Functions (can be called from Macro)
 //////////////////////////////////////////////////
@@ -165,7 +140,7 @@ function displayTDS_FFT(fileName)
 	styleFFT();
 	
 	variable fftScale = getFftScale(t, FFTwaveName);
-	SetScale/P x 0,fftScale,"", $FFTwaveName; ;
+	SetScale/P x 0,fftScale,"", $FFTwaveName;
 end
 
 function displayTDS_FFT_Range(fileName, xMin,xMax)
@@ -281,21 +256,10 @@ end
 ///// Private Functions (should not be called from Macro)
 //////////////////////////////////////////////////
 
-// @future function
-function DisplayFFTGraph(FFTwaveName, graphName, t, x)
-	string FFTwaveName, graphName, t, x;
-	Display $FFTwaveName as graphName;
-	
-	styleFFT();
-	
-	variable fftScale = getFftScale(t, x);
-	SetScale/P x 0,fftScale,"", $FFTwaveName;
-end
-
 
 
 //////////////////////////////////////////////////
-///// Graph Style Tampate
+///// Graph Style Tempate
 //////////////////////////////////////////////////
 function styleFFT()
  	Label bottom "THz"
@@ -354,7 +318,6 @@ function loadTextFileFor4col(rootPath, fileName, w0, w1, w2, w3)
 	string myWave2 = fileName+w2;
 	string myWave3 = fileName+w3;
 
-	//LoadWave/A/J/D/W/E=1/K=0 rootPath+fileName+".txt";
 	LoadWave/A/G/D/W/E=1/K=0 rootPath+fileName+".txt";
 	
 	Rename wave0,$mywave0;
