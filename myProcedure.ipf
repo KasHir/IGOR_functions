@@ -322,7 +322,7 @@ function loadTextFileFor4col(rootPath, fileName, w0, w1, w2, w3)
 	else
 		// file load
 		// @TODO: check if the file exists or not
-		LoadWave/A/G/D/W/E=1/K=0 rootPath+fileName+".txt";
+		LoadWave/A/G/D/W/E=0/K=0 rootPath+fileName+".txt";
 		
 		Rename wave0,$mywave0;
 		Rename wave1,$mywave1;
