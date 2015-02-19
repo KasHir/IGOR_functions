@@ -330,6 +330,10 @@ function loadTextFileFor4col(rootPath, fileName, w0, w1, w2, w3)
 	endif
 end
 
+function refresh()
+	KillWaves/A/Z
+end
+
 Window Table1() : Table
 	PauseUpdate; Silent 1		// building window...
 	Edit/W=(13.5,117.5,518.25,327.5)

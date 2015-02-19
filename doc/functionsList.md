@@ -45,3 +45,12 @@ If you need much more or less data columns, you can make another function like t
 | w2 | string | Name of wave (3rd column).||
 | w3 | string | Name of wave (4th column).||
 
+###refresh()
+kill all of hidden waves, which are not used in any graphs and tables.
+
+####example
+
+```
+refresh()
+```
+
