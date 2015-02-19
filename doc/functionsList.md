@@ -29,14 +29,17 @@ file: `C:Users:usrname:Documents:sample0001.txt`
 loadTextFileFor4col("C:Users:usrname:Documents:", "sample0001", "_Time", "_X", "_Y", "_Z")
 ```
 
+4 wave will be created: `sample0001_Time`, `sample0001_X`,`sample0001_Y`,`sample0001_Z`
+
 ####detail
-This is file load function for 4 columns file.
+This is file load function for 4 columns data.
+It makes 4 wave data; the names are filename+
 If you need much more or less data columns, you can make another function like this function.
 
 | argument | type | comments | example |
 | --- | --- | --- | --- |
 | rootPath | string | file path | "C:Users:usrname:Documents:" |
-| fileName | string | fileName. extension like ".txt" is not neeeded. | "sample0001" |
+| fileName | string | fileName. extension like ".txt" is not needed. | "sample0001" |
 | w0 | string | Name of wave (1st column). This name is up to you. *It requires unique name.* ||
 | w1 | string | Name of wave (2nd column).||
 | w2 | string | Name of wave (3rd column).||
