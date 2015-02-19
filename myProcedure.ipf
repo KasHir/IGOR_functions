@@ -205,7 +205,7 @@ function displayTDS_Trans_Range(transWave, fileName, xMin,xMax)
 	string graphName = FFTwaveName + "_LimitedRange";
 	Display $FFTwaveName as graphName;
 	
-	styleFFT();
+	styleTrans();
 	
 	variable fftScale = getFftScale(t, transWave);
 	SetScale/P x 0,fftScale,"", $FFTwaveName
@@ -236,7 +236,7 @@ function/S displayTrans_ID(sampleID, refID)
 	
 	Display $transData as transData;
 	
-	styleFFT()
+	styleTrans()
 	SetScale/P x 0,10/Dimsize($transData,0),"", $transData
 	
 	SetAxis bottom 0, 1.2;
@@ -281,7 +281,16 @@ function styleTDS()
 	GraphSizeForMsPpt()
 end
 
-
+function styleTrans()
+ 	Label bottom "THz"
+	Label left "Transmittance (Mag. sqrd)"
+	ModifyGraph zero=0
+	ModifyGraph lstyle=0
+	ModifyGraph tick=2,mirror=1
+	ModifyGraph mode=4,marker=8,mrkThick=0.2
+	ModifyGraph width={Aspect,1.2}
+	GraphSizeForMsPpt()
+end
 
 
 //////////////////////////////////////////
