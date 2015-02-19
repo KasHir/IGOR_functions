@@ -8,11 +8,11 @@ end
 /// Loop functions for Batch
 ///////////////////////////////////////////////////
 function callLoop()
-	init("C:Users:kas:Documents:lab:intern:TDTS:2015-02-18:");
+	init("C:Users:kas:Documents:lab:intern:TDTS:2015-02-12:");
 	
-	loopFunc("ref2")
-	loopFunc("smp2")
-	loopForTrans("ref2", "smp2", "e01_r01", "e01_s01")
+	loopFunc("ref")
+	loopFunc("smp")
+	loopForTrans("ref", "smp", "e05_s0", "e05_s1")
 end
 
 function loopFunc(listName)
