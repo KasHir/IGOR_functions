@@ -1,0 +1,172 @@
+// function dependance
+
+digraph function{
+	//subgraph cluster_IgorStandardFunction{
+	/*	LoadWave
+		Rename
+		CheckName
+		DimSize
+		round
+		SavePICT
+		Display
+		SetScale
+		SetAxis
+		ModifyGraph
+		log
+		DelayUpdate
+		Make
+		FFT
+	*/
+	//}
+	///////////////////////////////////////
+	// loop Functions
+	///////////////////////////////////////
+	subgraph cluster_loop{
+		loopFunc
+		loopForTrans
+	}
+
+	loopFunc -> {
+		init
+		loadTextFileAsTDS
+		displayTDSGraph
+		saveFunc
+		displayTDS_FFT_Log
+	}
+
+	loopForTrans -> {
+		calcTrans
+		displayTrans_ID
+		saveFunc
+	}
+
+	///////////////////////////////////////
+	// Public Functions
+	///////////////////////////////////////
+	subgraph cluster_PublicFunctions{
+		saveFunc
+		init
+		loadTextFileAsTDS
+	}
+	subgraph cluster_displayFunctions{
+		// for Display
+		displayTDSGraph
+		displayTDS_FFT
+		displayTDS_FFT_Range
+		displayTDS_FFT_Log
+
+		TDS_FFT
+	}
+	subgraph cluster_displayTransFunctions{
+		displayTDS_Trans_Range
+		displayTrans_ID
+	}
+	subgraph cluster_tmp{
+		transName
+
+		calcTrans
+
+	}
+	saveFunc -> SavePICT
+	loadTextFileAsTDS -> {
+		loadTextFileFor4col
+		// init
+	}
+
+	// for display /////////////////////
+	displayTDSGraph -> {
+	//	Display
+		styleTDS
+	}
+	displayTDS_FFT -> {
+		TDS_FFT
+	//	Display
+		styleFFT
+		getFftScale
+	//	SetScale
+	}
+	displayTDS_FFT_Range -> {
+		TDS_FFT
+	//	Display
+		styleFFT
+		getFftScale
+	//	SetScale
+	//	SetAxis
+	}
+	displayTDS_FFT_Log -> {
+		TDS_FFT
+	//	Display
+		styleFFT
+		getFftScale
+	//	SetScale
+	//	SetAxis
+	//	ModifyGraph
+	//	log
+	//	DelayUpdate
+	}
+	///////////////////
+	TDS_FFT -> {
+	//	FFT
+	//	DelayUpdate
+	}
+
+	displayTDS_Trans_Range -> {
+	//	Display
+		styleFFT
+		getFftScale
+	//	SetScale
+	//	SetAxis
+	}
+
+	calcTrans -> {
+	//	DimSize
+	//	Make
+		transName
+	//	Rename
+	}
+
+	displayTrans_ID -> {
+	//	Display
+		styleFFT
+	//	SetScale
+	//	DimSize
+	//	SetAxis
+	}
+
+
+
+	///////////////////////////////////////
+	// Graph Style
+	///////////////////////////////////////
+	subgraph cluster_GraphStyle{
+		styleFFT
+		styleTDS
+	}
+
+	subgraph cluster_GraphStylePrivate{
+		graphSizeForMsPpt
+	}
+
+	styleFFT -> graphSizeForMsPpt
+	styleTDS -> graphSizeForMsPpt
+
+	///////////////////////////////////////
+	// General Functions
+	///////////////////////////////////////
+	subgraph cluster_GeneralFunctions{
+		loadTextFileFor4col
+		getFftScale
+	}
+
+	getFftScale -> {
+	//	DimSize
+	//	round
+	}
+	loadTextFileFor4col -> {
+	//	LoadWave
+	//	Rename
+	//	CheckName
+	}
+
+
+}
