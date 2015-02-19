@@ -306,8 +306,6 @@ function getFftScale(t, x)
 	return fftScale;
 end
 
-// @ToDo: FIX Rename algorithm;
-// - ERROR if waveNames exsist in the file
 function loadTextFileFor4col(rootPath, fileName, w0, w1, w2, w3)
 	string rootPath;
 	string fileName;
@@ -318,12 +316,17 @@ function loadTextFileFor4col(rootPath, fileName, w0, w1, w2, w3)
 	string myWave2 = fileName+w2;
 	string myWave3 = fileName+w3;
 
-	LoadWave/A/G/D/W/E=1/K=0 rootPath+fileName+".txt";
+	// check if wave name is unique or not
+	if (CheckName(myWave0, 1) != 0 || CheckName(myWave1, 1) != 0 ||  CheckName(myWave2, 1) != 0 ||  CheckName(myWave3, 1) != 0 )
+		Abort "ERROR: wong wave name. probably the name of wave has been already loaded. you should eliminate an existed wave or use another name."
+	else
+		LoadWave/A/G/D/W/E=1/K=0 rootPath+fileName+".txt";
 	
-	Rename wave0,$mywave0;
-	Rename wave1,$mywave1;
-	Rename wave2,$mywave2;
-	Rename wave3,$mywave3;
+		Rename wave0,$mywave0;
+		Rename wave1,$mywave1;
+		Rename wave2,$mywave2;
+		Rename wave3,$mywave3;
+	endif
 end
 
 Window Table1() : Table
