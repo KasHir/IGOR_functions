@@ -10,7 +10,7 @@ end
 function callLoop()
 	loopFunc("ref2")
 	loopFunc("smp2")
-	loopForTrans("ref2", "smp2")
+	loopForTrans("ref2", "smp2", "e01_r01", "e01_s01")
 end
 
 function loopFunc(listName)
@@ -61,15 +61,13 @@ function loopFunc(listName)
 	endfor
 end
 
-function loopForTrans(listNameR, listNameS)
-	string listNameR// = "fileList";	// reference data fileList
-	string listNameS// = "fileList2";	// sample data fileList
+function loopForTrans(listNameR, listNameS, ID_ref, ID_sample)
+	string listNameR	// reference data fileList
+	string listNameS	// sample data fileList
+	string ID_ref 		//
+	string ID_sample	// like sampleNumber
 	
 	variable xMin, xMax
-	
-	string ID_ref = "e02_r1"			//
-	string ID_sample = "e02_s1"		// like sampleNumber
-	
 	
 	variable i	
 	wave/T nameWaveR = $listNameR
