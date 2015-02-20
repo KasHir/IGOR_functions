@@ -8,14 +8,13 @@ Thsi is IGOR sciprt to escape boring operations.
 ###1. LOAD `myProcedure.ipf` to your Igor Experiment.
 
 ###2. MAKE a table of data name lists in Igor
-
 example
 
- | ref | smp |
- | --- | --- |
- | ref0001 | smp0001 |
- | ref0002 | smp0002 |
- | ref0003 | smp0003 |
+| ref | smp |
+| --- | --- |
+| ref0001 | smp0001 |
+| ref0002 | smp0002 |
+| ref0003 | smp0003 |
 
 ###3. Make a macro or a function and WRITE some codes
 to call functions for batch procedure.
