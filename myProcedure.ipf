@@ -128,7 +128,7 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 		xMax = 1.2
 		SetAxis bottom xMin, xMax
 		
-		saveFunc(nameWaveS[i]+"_and_"+nameWaveR[i], ".png");
+		saveFunc(nameWaveS[i]+"_and_"+nameWaveR[i], "_FFT_SET.png");
 	endfor
 end
 
