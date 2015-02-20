@@ -14,6 +14,7 @@ function callLoop()
 	loopFunc("smp")
 	loopForTrans("ref", "smp", "e05_s0", "e05_s1")
 	
+	create_TDS_GraphsSet("e05_ref_and_e05_smp", "ref", "smp")
 	create_TDS_FFT_GraphsSet("e05_ref_and_e05_smp", "ref", "smp")
 end
 
