@@ -112,7 +112,7 @@ digraph function{
 
 	displayTDS_Trans_Range -> {
 	//	Display
-		styleFFT
+		styleTrans
 		getFftScale
 	//	SetScale
 	//	SetAxis
@@ -127,7 +127,7 @@ digraph function{
 
 	displayTrans_ID -> {
 	//	Display
-		styleFFT
+		styleTrans
 	//	SetScale
 	//	DimSize
 	//	SetAxis
@@ -141,6 +141,7 @@ digraph function{
 	subgraph cluster_GraphStyle{
 		styleFFT
 		styleTDS
+		styleTrans
 	}
 
 	subgraph cluster_GraphStylePrivate{
@@ -156,6 +157,7 @@ digraph function{
 	subgraph cluster_GeneralFunctions{
 		loadTextFileFor4col
 		getFftScale
+		refresh
 	}
 
 	getFftScale -> {
