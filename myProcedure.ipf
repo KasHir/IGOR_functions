@@ -13,6 +13,8 @@ function callLoop()
 	loopFunc("ref")
 	loopFunc("smp")
 	loopForTrans("ref", "smp", "e05_s0", "e05_s1")
+	
+	create_TDSGraphsSet("e05_ref_and_e05_smp", "ref", "smp")
 end
 
 function loopFunc(listName)
@@ -88,6 +90,48 @@ function loopForTrans(listNameR, listNameS, ID_ref, ID_sample)
 		saveFunc(fileName, ".png")
 	endfor
 end
+
+function create_TDSGraphsSet(graphName, listNameR, listNameS)
+	string graphName
+	string listNameR
+	string listNameS
+
+	string x, y;
+	string/G label_time, label_X;
+
+	wave/T nameWaveR = $listNameR
+	wave/T nameWaveS = $listNameS
+	variable last = Dimsize($listNameR,0)
+	
+	variable xMin, xMax
+	
+	variable i	
+	for(i=0;i<last;i+=1)
+		x = nameWaveS[i] + label_time;
+		y = nameWaveS[i] + label_X;
+		
+		// make a graph of Ref
+		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
+		Display $FFTwaveNameR as graphName+"_TD_set_"+num2str(i);
+		variable fftScale = getFftScale(nameWaveR[i]+label_time, FFTwaveNameR);
+		SetScale/P x 0,fftScale,"", $FFTwaveNameR;
+		styleFFT();
+			
+		// append Sample data to the graph
+		string FFTwaveNameS = TDS_FFT(nameWaveS[i], nameWaveS[i]+label_time, nameWaveS[i]+label_X);
+		AppendToGraph/C=(0,0,0) $FFTwaveNameS
+		fftScale = getFftScale(nameWaveS[i]+label_time, FFTwaveNameS);
+		SetScale/P x 0,fftScale,"", $FFTwaveNameS;
+		
+		// set X axix range	
+		xMin = 0
+		xMax = 1.2
+		SetAxis bottom xMin, xMax
+		
+		saveFunc(nameWaveS[i]+"_and_"+nameWaveR[i], ".png");
+	endfor
+end
+
 
 //////////////////////////////////////////////////
 ///// Public Functions (can be called from Macro)
