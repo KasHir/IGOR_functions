@@ -9,6 +9,8 @@ Thsi is IGOR sciprt to escape boring operations.
 
 ###2. MAKE a table of data name lists in Igor
 
+example
+
  | ref | smp |
  | --- | --- |
  | ref0001 | smp0001 |
