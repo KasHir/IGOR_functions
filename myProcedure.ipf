@@ -91,6 +91,42 @@ function loopForTrans(listNameR, listNameS, ID_ref, ID_sample)
 	endfor
 end
 
+function create_TDS_GraphsSet(graphName, listNameR, listNameS)
+	string graphName
+	string listNameR
+	string listNameS
+	
+	string x, y;
+	string/G label_time, label_X;
+
+	wave/T nameWaveR = $listNameR
+	wave/T nameWaveS = $listNameS
+	variable last = Dimsize($listNameR,0)
+	
+	variable xMin, xMax
+	
+	variable i	
+	for(i=0;i<last;i+=1)
+		// make a graph of Ref
+		x = nameWaveR[i] + label_time;
+		y = nameWaveR[i] + label_X;
+		
+		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
+		Display $y vs $x as graphName+"_TDS_set_"+num2str(i);
+		styleTDS();
+		ModifyGraph lstyle($y)=3
+		
+		// append Sample data to the graph
+		x = nameWaveS[i] + label_time;
+		y = nameWaveS[i] + label_X;
+		
+		AppendToGraph/C=(0,0,0) $y vs $x
+		ModifyGraph lstyle($y)=0
+		
+		saveFunc(nameWaveS[i]+"_and_"+nameWaveR[i], "_TDS.png");
+	endfor
+end
+
 function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 	string graphName
 	string listNameR
