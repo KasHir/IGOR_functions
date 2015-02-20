@@ -271,7 +271,7 @@ function/S TDS_FFT(fileName, t, x)
 	string fileName, t, x;
 	
 	string FFTwaveName = x + "_FFT"
-	FFT/OUT=4/PAD={512}/DEST=$x+"_FFT" $x;DelayUpdate
+	FFT/OUT=4/PAD={1024}/DEST=$x+"_FFT" $x;DelayUpdate
 	
 	return FFTwaveName;
 end
