@@ -112,7 +112,7 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 		
 		// make a graph of Ref
 		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
-		Display $FFTwaveNameR as graphName+"_TD_set_"+num2str(i);
+		Display $FFTwaveNameR as graphName+"_FFT_set_"+num2str(i);
 		variable fftScale = getFftScale(nameWaveR[i]+label_time, FFTwaveNameR);
 		SetScale/P x 0,fftScale,"", $FFTwaveNameR;
 		styleFFT();
