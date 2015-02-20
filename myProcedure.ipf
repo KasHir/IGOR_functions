@@ -32,9 +32,8 @@ function loopFunc(listName)
 		print fileName
 		loadtextFileAsTDS(fileName);	// 
 		
-		
+		//---------------------------------
 		// make and save TDS Graphs
-		
 		displayTDSGraph(fileName);
 		
 		xMin = -0.006
@@ -43,9 +42,14 @@ function loopFunc(listName)
 		
 		saveFunc(fileName, "_TDS.png")
 		
-		
+
+		//----------------------------------
 		// make and save TDS FFT Graph as Log
+		displayTDS_FFT_Range(fileName, 0, 1.0);
+		saveFunc(fileName, "_TDS_FFT.png")
 		
+		//----------------------------------
+		// make and save TDS FFT Graph as Log
 		displayTDS_FFT_Log(fileName);
 			
 		//xMin = 0
@@ -56,7 +60,7 @@ function loopFunc(listName)
 		//xMax = 0.1
 		//SetAxis left xMin, xMax
 		
-		saveFunc(fileName, "_FFT_Log.png");
+		//saveFunc(fileName, "_FFT_Log.png");
 
 	endfor
 end
