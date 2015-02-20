@@ -1,21 +1,21 @@
 IGOR Procedure
 ====
 
-Thsi is IGOR sciprt to avoid from boring operations.
+Thsi is IGOR sciprt to escape boring operations.
 
 ##How to Use
 
-1. laod `myProcedure.ipf` to your Igor Experiment.
+###1. LOAD `myProcedure.ipf` to your Igor Experiment.
 
-2. make a table of data Name Lists in Igor
+###2. MAKE a table of data name lists in Igor
 
-| ref | smp |
-| --- | --- |
-| ref0001 | smp0001 |
-| ref0002 | smp0002 |
-| ref0003 | smp0003 |
+ | ref | smp |
+ | --- | --- |
+ | ref0001 | smp0001 |
+ | ref0002 | smp0002 |
+ | ref0003 | smp0003 |
 
-3. make a Macro or a function and write some codes
+###3. Make a macro or a function and WRITE some codes
 to call functions for batch procedure.
 
 "your data path" depends on your computer.
