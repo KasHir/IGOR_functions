@@ -36,6 +36,7 @@ function loopFunc(listName)
 		// make and save TDS Graphs
 		displayTDSGraph(fileName);
 		
+		
 		xMin = -0.006
 		xMax = 0.008
 		SetAxis left xMin, xMax
@@ -85,6 +86,6 @@ function loopForTrans(listNameR, listNameS, ID_ref, ID_sample)
 		calcTrans(fileNameS, fileNameR, ID_sample +"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
 		string fileName = displayTrans_ID(ID_sample+"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
 				
-		saveFunc(fileName, ".png")
+		//saveFunc(fileName, ".png")
 	endfor
 end

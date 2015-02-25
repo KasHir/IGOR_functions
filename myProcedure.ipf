@@ -26,7 +26,11 @@ function create_TDS_GraphsSet(graphName, listNameR, listNameS)
 		y = nameWaveR[i] + label_X;
 		
 		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
+		
+		resetGraph(graphName+"_TDS_set_"+num2str(i))
 		Display $y vs $x as graphName+"_TDS_set_"+num2str(i);
+		renameGraph(graphName+"_TDS_set_"+num2str(i))
+		
 		styleTDS();
 		ModifyGraph lstyle($y)=3
 		
@@ -62,7 +66,11 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 		
 		// make a graph of Ref
 		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
+		
+		resetGraph(graphName+"_FFT_set_"+num2str(i))
 		Display $FFTwaveNameR as graphName+"_FFT_set_"+num2str(i);
+		renameGraph(graphName+"_FFT_set_"+num2str(i))
+		
 		variable fftScale = getFftScale(nameWaveR[i]+label_time, FFTwaveNameR);
 		SetScale/P x 0,fftScale,"", $FFTwaveNameR;
 		styleFFT();
@@ -118,7 +126,9 @@ function displayTDSGraph(fileName)
 	x = fileName + label_time;
 	y = fileName + label_X;
 
+	resetGraph(fileName+"_TD")
 	Display $y vs $x as fileName+"_TD";
+	renameGraph(fileName+"_TD")
 
 	styleTDS();
 end
@@ -132,7 +142,9 @@ function displayTDS_FFT(fileName)
 	
 	string FFTwaveName = TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName;
+	resetGraph(graphName)
 	Display $FFTwaveName as graphName;
+	renameGraph(graphName)
 	
 	styleFFT();
 	
@@ -149,7 +161,9 @@ function displayTDS_FFT_Range(fileName, xMin,xMax)
 	
 	string FFTwaveName = TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName + "_LimitedRange";
+	resetGraph(graphName)
 	Display $FFTwaveName as graphName;
+	renameGraph(graphName)
 	
 	styleFFT();
 	
@@ -167,7 +181,9 @@ function displayTDS_FFT_Log(fileName)
 		
 	string FFTwaveName = TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName + "_Log";
+	resetGraph(graphName)
 	Display $FFTwaveName as graphName;
+	renameGraph(graphName)
 	
 	styleFFT();
 	
@@ -204,7 +220,9 @@ function displayTDS_Trans_Range(transWave, fileName, xMin,xMax)
 	
 	string FFTwaveName = transWave//TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName + "_LimitedRange";
+	resetGraph(graphName)
 	Display $FFTwaveName as graphName;
+	renameGraph(graphName)
 	
 	styleTrans();
 	
@@ -235,7 +253,9 @@ function/S displayTrans_ID(sampleID, refID)
 	string sampleID, refID
 	string transData = transName(sampleID, refID)
 	
-	Display $transData as transData;
+	resetGraph(transData)
+	Display $transData as transData
+	renameGraph(transData)
 	
 	styleTrans()
 	SetScale/P x 0,10/Dimsize($transData,0),"", $transData
@@ -338,6 +358,43 @@ end
 
 function refresh()
 	KillWaves/A/Z
+end
+
+// If Graph exists already, Kill it once
+function resetGraph(g)
+	string g
+	g = "G_"+g
+	print g
+	DoWindow $g
+	if (V_flag == 1)
+		// graph window exist
+		print "exist"
+		dowindow/k $g	// kill Graph
+		return 1
+	else
+		// graph window unexist
+		print "nothing"
+		return 0
+	endif
+end
+
+function renameGraph(g)
+	string g
+	g = "G_"+g
+	DoWindow $g
+	if (V_flag == 1)
+		// graph window exist
+		print "err"
+			// kill Graph
+		return 1
+	else
+		// graph window unexist
+		print "nothing"
+		print winname(0,1)
+		DoWindow/C $g
+		print winname(0,1)
+		return 0
+	endif
 end
 
 Window Table1() : Table
