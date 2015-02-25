@@ -1,9 +1,9 @@
 #pragma rtGlobals=1		// Use modern global access method.
 
 
-///////////////////////////////////////////////////
-/// Loop functions for Batch
-///////////////////////////////////////////////////
+// =======================================
+//  Loop functions for Batch
+// =======================================
 function callLoop()
 	init("C:Users:kas:Documents:lab:intern:TDTS:2015-02-12:");
 	

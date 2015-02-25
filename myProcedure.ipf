@@ -1,8 +1,9 @@
 #pragma rtGlobals=1		// Use modern global access method.
 
-function call()
-	print "called"
-end
+
+// =======================================
+//  Loop functions for Batch
+// =======================================
 
 function create_TDS_GraphsSet(graphName, listNameR, listNameS)
 	string graphName
@@ -82,9 +83,9 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 end
 
 
-//////////////////////////////////////////////////
-///// Public Functions (can be called from Macro)
-//////////////////////////////////////////////////
+// =======================================
+//  Public Functions (can be called from Macro)
+// =======================================
 function saveFunc(fileName, extension)
 	string fileName, extension
 	SavePICT/O/P=IGOR/E=-5/B=288 as fileName+extension
@@ -106,9 +107,9 @@ function loadTextFileAsTDS(fileName)
 	loadTextFileFor4col(rootPath, fileName, label_time, label_X, label_Y, label_Aux);
 end
 
-
-/// @display //////////////////////////////
-
+// ---------------------------------------
+//  display 
+// ---------------------------------------
 function displayTDSGraph(fileName)
 	string fileName
 	string x, y;
@@ -177,8 +178,9 @@ function displayTDS_FFT_Log(fileName)
 end
 
 
-//////////////////////////////////////////////
-
+// ---------------------------------------
+//   FFT
+// ---------------------------------------
 function/S TDS_FFT(fileName, t, x)
 	string fileName, t, x;
 	
@@ -188,7 +190,9 @@ function/S TDS_FFT(fileName, t, x)
 	return FFTwaveName;
 end
 
-/// @trans ////////////////////////////////
+// ---------------------------------------
+//  trans
+// ---------------------------------------
 
 function displayTDS_Trans_Range(transWave, fileName, xMin,xMax)
 	string transWave
@@ -248,15 +252,10 @@ function/S transName(sampleID, refID)
 end
 
 
-//////////////////////////////////////////////////
-///// Private Functions (should not be called from Macro)
-//////////////////////////////////////////////////
 
-
-
-//////////////////////////////////////////////////
-///// Graph Style Tempate
-//////////////////////////////////////////////////
+// =======================================
+//  Graph Style Tempate
+// =======================================
 function styleFFT()
  	Label bottom "THz"
 	Label left "X_signal_FFT (Mag. sqrd)"
@@ -290,15 +289,16 @@ function styleTrans()
 end
 
 
-//////////////////////////////////////////
+// ---------------------------------------
 //  Graph Style Template private functions
+// ---------------------------------------
 function graphSizeForMsPpt()
 	ModifyGraph height=226.772,gfSize=18
 end
 
-//////////////////////////////////////////////////
-///// General Functions 
-//////////////////////////////////////////////////
+// =======================================
+//  General Functions 
+// =======================================
 function getFftScale(t, x)
 	string t;	// waveName of time data
 	string x;	// waveName of FFT data
