@@ -5,7 +5,7 @@
 //  Loop functions for Batch
 // =======================================
 function callLoop()
-	init("C:Users:kas:Documents:lab:intern:TDTS:2015-02-12:");
+	init(getHomePath()+"example:");
 	
 	loopFunc("ref")
 	loopFunc("smp")

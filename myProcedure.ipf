@@ -331,6 +331,15 @@ function refresh()
 	KillWaves/A/Z
 end
 
+function/S getHomePath()
+	PathInfo home
+	if( V_flag == 0 )
+		Abort "cannot find path"
+	else
+		return S_Path
+	endif
+end
+
 // ---------------------------------------
 //  Create Graph
 // ---------------------------------------
