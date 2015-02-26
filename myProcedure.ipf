@@ -2,7 +2,7 @@
 
 
 // =======================================
-//  Loop functions for Batch
+//  Create Graphs Set ( 2 data as 1 graph )
 // =======================================
 
 function create_TDS_GraphsSet(graphName, listNameR, listNameS)
