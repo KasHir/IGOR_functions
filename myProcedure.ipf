@@ -345,7 +345,7 @@ function refresh()
 end
 
 // ---------------------------------------
-//  Create Generate
+//  Create Graph
 // ---------------------------------------
 
 function createGraphXY(x, y, name)
