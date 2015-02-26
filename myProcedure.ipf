@@ -1,96 +1,9 @@
 #pragma rtGlobals=1		// Use modern global access method.
 
-function call()
-	print "called"
-end
 
-///////////////////////////////////////////////////
-/// Loop functions for Batch
-///////////////////////////////////////////////////
-function callLoop()
-	init("C:Users:kas:Documents:lab:intern:TDTS:2015-02-12:");
-	
-	loopFunc("ref")
-	loopFunc("smp")
-	loopForTrans("ref", "smp", "e05_s0", "e05_s1")
-	
-	create_TDS_GraphsSet("e05_ref_and_e05_smp", "ref", "smp")
-	create_TDS_FFT_GraphsSet("e05_ref_and_e05_smp", "ref", "smp")
-end
-
-function loopFunc(listName)
-	string listName// = "ref";
-
-	variable xMin, xMax
-	
-	variable i	
-	wave/T nameWave = $listName
-	variable last = Dimsize($listName,0)
-
-	for(i=0;i<last;i+=1)
-		
-		// load files
-		//  ! ! ! If data has been ALREADY LOADED, you should COMMENT OUT "loadtextFileAsTDS ! ! !
-		string fileName = nameWave[i];
-		print fileName
-		loadtextFileAsTDS(fileName);	// 
-		
-		//---------------------------------
-		// make and save TDS Graphs
-		displayTDSGraph(fileName);
-		
-		xMin = -0.006
-		xMax = 0.008
-		SetAxis left xMin, xMax
-		
-		saveFunc(fileName, "_TDS.png")
-		
-
-		//----------------------------------
-		// make and save TDS FFT Graph as Log
-		displayTDS_FFT_Range(fileName, 0, 1.0);
-		saveFunc(fileName, "_TDS_FFT.png")
-		
-		//----------------------------------
-		// make and save TDS FFT Graph as Log
-		displayTDS_FFT_Log(fileName);
-			
-		//xMin = 0
-		//xMax = 4
-		//SetAxis bottom xMin, xMax
-		
-		//xMin = 0.000000001
-		//xMax = 0.1
-		//SetAxis left xMin, xMax
-		
-		//saveFunc(fileName, "_FFT_Log.png");
-
-	endfor
-end
-
-function loopForTrans(listNameR, listNameS, ID_ref, ID_sample)
-	string listNameR	// reference data fileList
-	string listNameS	// sample data fileList
-	string ID_ref 		//
-	string ID_sample	// like sampleNumber
-	
-	variable xMin, xMax
-	
-	variable i	
-	wave/T nameWaveR = $listNameR
-	wave/T nameWaveS = $listNameS
-	
-	variable last = Dimsize($listNameR,0)
-	for(i=0;i<last;i+=1)
-		string fileNameR = nameWaveR[i];
-		string fileNameS = nameWaveS[i]; 
-
-		calcTrans(fileNameS, fileNameR, ID_sample +"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
-		string fileName = displayTrans_ID(ID_sample+"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
-				
-		saveFunc(fileName, ".png")
-	endfor
-end
+// =======================================
+//  Create Graphs Set ( 2 data as 1 graph )
+// =======================================
 
 function create_TDS_GraphsSet(graphName, listNameR, listNameS)
 	string graphName
@@ -112,8 +25,10 @@ function create_TDS_GraphsSet(graphName, listNameR, listNameS)
 		x = nameWaveR[i] + label_time;
 		y = nameWaveR[i] + label_X;
 		
-		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
-		Display $y vs $x as graphName+"_TDS_set_"+num2str(i);
+		string FFTwaveNameR = calcTDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
+		
+		createGraphXY(x, y, graphName+"_TDS_set_"+num2str(i))
+		
 		styleTDS();
 		ModifyGraph lstyle($y)=3
 		
@@ -148,14 +63,16 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 		y = nameWaveS[i] + label_X;
 		
 		// make a graph of Ref
-		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
-		Display $FFTwaveNameR as graphName+"_FFT_set_"+num2str(i);
+		string FFTwaveNameR = calcTDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
+		
+		createGraphY(FFTwaveNameR, graphName+"_FFT_set_"+num2str(i))
+		
 		variable fftScale = getFftScale(nameWaveR[i]+label_time, FFTwaveNameR);
 		SetScale/P x 0,fftScale,"", $FFTwaveNameR;
 		styleFFT();
 			
 		// append Sample data to the graph
-		string FFTwaveNameS = TDS_FFT(nameWaveS[i], nameWaveS[i]+label_time, nameWaveS[i]+label_X);
+		string FFTwaveNameS = calcTDS_FFT(nameWaveS[i], nameWaveS[i]+label_time, nameWaveS[i]+label_X);
 		AppendToGraph/C=(0,0,0) $FFTwaveNameS
 		fftScale = getFftScale(nameWaveS[i]+label_time, FFTwaveNameS);
 		SetScale/P x 0,fftScale,"", $FFTwaveNameS;
@@ -170,9 +87,9 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 end
 
 
-//////////////////////////////////////////////////
-///// Public Functions (can be called from Macro)
-//////////////////////////////////////////////////
+// =======================================
+//  Public Functions (can be called from Macro)
+// =======================================
 function saveFunc(fileName, extension)
 	string fileName, extension
 	SavePICT/O/P=IGOR/E=-5/B=288 as fileName+extension
@@ -194,10 +111,10 @@ function loadTextFileAsTDS(fileName)
 	loadTextFileFor4col(rootPath, fileName, label_time, label_X, label_Y, label_Aux);
 end
 
-
-/// @display //////////////////////////////
-
-function displayTDSGraph(fileName)
+// ---------------------------------------
+//  display TDS
+// ---------------------------------------
+function/S displayTDSGraph(fileName)
 	string fileName
 	string x, y;
 	string/G label_time, label_X;
@@ -205,69 +122,74 @@ function displayTDSGraph(fileName)
 	x = fileName + label_time;
 	y = fileName + label_X;
 
-	Display $y vs $x as fileName+"_TD";
+	createGraphXY(x, y, fileName+"_TDS")
 
 	styleTDS();
+	
+	return fileName+"_TDS"
 end
 
-
-function displayTDS_FFT(fileName)
+// ---------------------------------------
+//  display FFT
+// ---------------------------------------
+function/S displayTDS_FFT(fileName)
 	string fileName;
-	string/G label_time, label_X;
-	string t = fileName+label_time;	// time data
-	string x = fileName+label_X;		// data before FFT
 	
-	string FFTwaveName = TDS_FFT(fileName, t, x);
-	string graphName = FFTwaveName;
-	Display $FFTwaveName as graphName;
+	string graphName = display_TDS_FFT_Basic(fileName, "")
 	
-	styleFFT();
-	
-	variable fftScale = getFftScale(t, FFTwaveName);
-	SetScale/P x 0,fftScale,"", $FFTwaveName;
+	return graphName
 end
 
-function displayTDS_FFT_Range(fileName, xMin,xMax)
+function/S displayTDS_FFT_Range(fileName, xMin,xMax)
 	string fileName;
 	variable xMin, xMax;
-	string/G label_time, label_X;
+	
+	string graphName = display_TDS_FFT_Basic(fileName, "_LimitedRange")
+	
+	// change range
+	SetAxis bottom xMin,xMax	
+	
+	return graphName
+end
+
+function/S displayTDS_FFT_Log(fileName)
+	string fileName;
+	
+	string graphName = display_TDS_FFT_Basic(fileName, "_Log")
+	
+	// change log scale
+	ModifyGraph log(left)=1;DelayUpdate	
+	
+	return graphName
+end
+
+//  Common ----------------------------------
+function/S display_TDS_FFT_Basic(fileName, addName)
+	string fileName, addName
+	string/G label_time, label_X;	
 	string t = fileName+label_time;	// time data
 	string x = fileName+label_X;		// data before FFT
 	
-	string FFTwaveName = TDS_FFT(fileName, t, x);
-	string graphName = FFTwaveName + "_LimitedRange";
-	Display $FFTwaveName as graphName;
+	// Calc and Create graph
+	string FFTwaveName = calcTDS_FFT(fileName, t, x);
+	string graphName = FFTwaveName + addName;
+	createGraphY(FFTwaveName, graphName)
 	
+	// Style
 	styleFFT();
 	
+	// Scale
 	variable fftScale = getFftScale(t, FFTwaveName);
 	SetScale/P x 0,fftScale,"", $FFTwaveName
 	
-	SetAxis bottom xMin,xMax;
-end
-
-function displayTDS_FFT_Log(fileName)
-	string fileName;
-	string/G label_time, label_X;
-	string t = fileName+label_time;	// time data
-	string x = fileName+label_X;		// data before FFT
-		
-	string FFTwaveName = TDS_FFT(fileName, t, x);
-	string graphName = FFTwaveName + "_Log";
-	Display $FFTwaveName as graphName;
-	
-	styleFFT();
-	
-	variable fftScale = getFftScale(t, FFTwaveName);
-	SetScale/P x 0,fftScale,"", $FFTwaveName;
-	
-	ModifyGraph log(left)=1;DelayUpdate
+	return graphName
 end
 
 
-//////////////////////////////////////////////
-
-function/S TDS_FFT(fileName, t, x)
+// ---------------------------------------
+//   FFT
+// ---------------------------------------
+function/S calcTDS_FFT(fileName, t, x)
 	string fileName, t, x;
 	
 	string FFTwaveName = x + "_FFT"
@@ -276,32 +198,32 @@ function/S TDS_FFT(fileName, t, x)
 	return FFTwaveName;
 end
 
-/// @trans ////////////////////////////////
+// ---------------------------------------
+//  trans
+// ---------------------------------------
 
-function displayTDS_Trans_Range(transWave, fileName, xMin,xMax)
-	string transWave
-	string fileName
-	variable xMin, xMax;
-	string/G label_time, label_X;
-	string t = fileName+label_time;	// time data
-	string x = fileName+label_X;		// data before FFT
+function/S displayTrans_ID(sampleFile, refFile, sampleID, refID)
+	string sampleFile, refFile
+	string sampleID, refID
 	
-	string FFTwaveName = transWave//TDS_FFT(fileName, t, x);
-	string graphName = FFTwaveName + "_LimitedRange";
-	Display $FFTwaveName as graphName;
+	// Calc and Create graph
+	string TransWaveName = calcTrans(sampleFile, refFile, sampleID, refID)
+	createGraphY(TransWaveName, TransWaveName)
 	
-	styleTrans();
+	// Style
+	styleTrans()
 	
-	variable fftScale = getFftScale(t, transWave);
-	SetScale/P x 0,fftScale,"", $FFTwaveName
+	// Scale
+	SetScale/P x 0,10/Dimsize($TransWaveName,0),"", $TransWaveName
 	
-	SetAxis bottom xMin,xMax;
+	// Option
+	SetAxis bottom 0, 1.2;
 	setAxis left 0, 1.5;
+	
+	return TransWaveName
 end
 
-///////////////////////////////////////////////////
-
-function calcTrans(sample, ref, sampleID, refID)
+function/S calcTrans(sample, ref, sampleID, refID)
 	string sample, ref, sampleID, refID
 	string fftID = "_X_FFT"
 	
@@ -313,21 +235,8 @@ function calcTrans(sample, ref, sampleID, refID)
 	
 	string myWave =transName(sampleID, refID)
 	Rename testWave,$myWave;
-end
-
-function/S displayTrans_ID(sampleID, refID)
-	string sampleID, refID
-	string transData = transName(sampleID, refID)
 	
-	Display $transData as transData;
-	
-	styleTrans()
-	SetScale/P x 0,10/Dimsize($transData,0),"", $transData
-	
-	SetAxis bottom 0, 1.2;
-	setAxis left 0, 1.5;
-	
-	return transData
+	return myWave
 end
 
 function/S transName(sampleID, refID)
@@ -335,16 +244,9 @@ function/S transName(sampleID, refID)
 	return "Trans_"+sampleID+ "_vs_"+refID
 end
 
-
-//////////////////////////////////////////////////
-///// Private Functions (should not be called from Macro)
-//////////////////////////////////////////////////
-
-
-
-//////////////////////////////////////////////////
-///// Graph Style Tempate
-//////////////////////////////////////////////////
+// =======================================
+//  Graph Style Tempate
+// =======================================
 function styleFFT()
  	Label bottom "THz"
 	Label left "X_signal_FFT (Mag. sqrd)"
@@ -378,15 +280,16 @@ function styleTrans()
 end
 
 
-//////////////////////////////////////////
+// ---------------------------------------
 //  Graph Style Template private functions
+// ---------------------------------------
 function graphSizeForMsPpt()
 	ModifyGraph height=226.772,gfSize=18
 end
 
-//////////////////////////////////////////////////
-///// General Functions 
-//////////////////////////////////////////////////
+// =======================================
+//  General Functions 
+// =======================================
 function getFftScale(t, x)
 	string t;	// waveName of time data
 	string x;	// waveName of FFT data
@@ -426,6 +329,65 @@ end
 
 function refresh()
 	KillWaves/A/Z
+end
+
+function/S getHomePath()
+	PathInfo home
+	if( V_flag == 0 )
+		Abort "cannot find path"
+	else
+		return S_Path
+	endif
+end
+
+// ---------------------------------------
+//  Create Graph
+// ---------------------------------------
+
+function createGraphXY(x, y, name)
+	string x, y, name
+	
+	resetGraph(name)
+	Display $y vs $x as Name
+	renameGraph(name)
+end
+
+function createGraphY(y, name)
+	string y, name
+	
+	resetGraph(name)
+	Display $y as Name
+	renameGraph(name)
+end
+
+// If Graph exists already, Kill it once
+function resetGraph(g)
+	string g
+	g = "G_"+g
+	DoWindow $g
+	if (V_flag == 1)
+		// graph window exist
+		dowindow/k $g	// kill Graph
+		return 1
+	else
+		// graph window unexist
+		return 0
+	endif
+end
+
+function renameGraph(g)
+	string g
+	g = "G_"+g
+	DoWindow $g
+	if (V_flag == 1)
+		// graph window exist
+		print "err:" + g
+		return 1
+	else
+		// graph window unexist
+		DoWindow/C $g
+		return 0
+	endif
 end
 
 Window Table1() : Table
