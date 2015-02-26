@@ -83,8 +83,8 @@ function loopForTrans(listNameR, listNameS, ID_ref, ID_sample)
 		string fileNameR = nameWaveR[i];
 		string fileNameS = nameWaveS[i]; 
 
-		calcTrans(fileNameS, fileNameR, ID_sample +"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
-		string fileName = displayTrans_ID(ID_sample+"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
+//		calcTrans(fileNameS, fileNameR, ID_sample +"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
+		string fileName = displayTrans_ID(fileNameS, fileNameR, ID_sample+"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
 				
 		//saveFunc(fileName, ".png")
 	endfor

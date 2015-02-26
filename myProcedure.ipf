@@ -162,12 +162,15 @@ function display_TDS_FFT_Basic(fileName, addName)
 	string t = fileName+label_time;	// time data
 	string x = fileName+label_X;		// data before FFT
 	
+	// Calc and Create graph
 	string FFTwaveName = TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName + addName;
 	createGraphY(FFTwaveName, graphName)
 	
+	// Style
 	styleFFT();
 	
+	// Scale
 	variable fftScale = getFftScale(t, FFTwaveName);
 	SetScale/P x 0,fftScale,"", $FFTwaveName
 end
@@ -189,7 +192,7 @@ end
 //  trans
 // ---------------------------------------
 
-function calcTrans(sample, ref, sampleID, refID)
+function/S calcTrans(sample, ref, sampleID, refID)
 	string sample, ref, sampleID, refID
 	string fftID = "_X_FFT"
 	
@@ -201,21 +204,29 @@ function calcTrans(sample, ref, sampleID, refID)
 	
 	string myWave =transName(sampleID, refID)
 	Rename testWave,$myWave;
+	
+	return myWave
 end
 
-function/S displayTrans_ID(sampleID, refID)
+function/S displayTrans_ID(sampleFile, refFile, sampleID, refID)
+	string sampleFile, refFile
 	string sampleID, refID
-	string transData = transName(sampleID, refID)
 	
-	createGraphY(transData, transData)
+	// Calc and Create graph
+	string TransWaveName = calcTrans(sampleFile, refFile, sampleID, refID)
+	createGraphY(TransWaveName, TransWaveName)
 	
+	// Style
 	styleTrans()
-	SetScale/P x 0,10/Dimsize($transData,0),"", $transData
 	
+	// Scale
+	SetScale/P x 0,10/Dimsize($TransWaveName,0),"", $TransWaveName
+	
+	// Option
 	SetAxis bottom 0, 1.2;
 	setAxis left 0, 1.5;
 	
-	return transData
+	return TransWaveName
 end
 
 function/S transName(sampleID, refID)
