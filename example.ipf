@@ -41,13 +41,13 @@ function loopFunc(listName)
 		xMax = 0.008
 		SetAxis left xMin, xMax
 		
-		saveFunc(fileName, "_TDS.png")
+		//saveFunc(fileName, "_TDS.png")
 		
 
 		//----------------------------------
 		// make and save TDS FFT Graph as Log
 		displayTDS_FFT_Range(fileName, 0, 1.0);
-		saveFunc(fileName, "_TDS_FFT.png")
+		//saveFunc(fileName, "_TDS_FFT.png")
 		
 		//----------------------------------
 		// make and save TDS FFT Graph as Log
