@@ -189,29 +189,6 @@ end
 //  trans
 // ---------------------------------------
 
-function displayTDS_Trans_Range(transWave, fileName, xMin,xMax)
-	string transWave
-	string fileName
-	variable xMin, xMax;
-	string/G label_time, label_X;
-	string t = fileName+label_time;	// time data
-	string x = fileName+label_X;		// data before FFT
-	
-	string FFTwaveName = transWave//TDS_FFT(fileName, t, x);
-	string graphName = FFTwaveName + "_LimitedRange";
-	createGraphY(FFTwaveName, graphName)
-	
-	styleTrans();
-	
-	variable fftScale = getFftScale(t, transWave);
-	SetScale/P x 0,fftScale,"", $FFTwaveName
-	
-	SetAxis bottom xMin,xMax;
-	setAxis left 0, 1.5;
-end
-
-///////////////////////////////////////////////////
-
 function calcTrans(sample, ref, sampleID, refID)
 	string sample, ref, sampleID, refID
 	string fftID = "_X_FFT"
