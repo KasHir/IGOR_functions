@@ -65,9 +65,7 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 		// make a graph of Ref
 		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
 		
-		resetGraph(graphName+"_FFT_set_"+num2str(i))
-		Display $FFTwaveNameR as graphName+"_FFT_set_"+num2str(i);
-		renameGraph(graphName+"_FFT_set_"+num2str(i))
+		createGraphY(FFTwaveNameR, graphName+"_FFT_set_"+num2str(i))
 		
 		variable fftScale = getFftScale(nameWaveR[i]+label_time, FFTwaveNameR);
 		SetScale/P x 0,fftScale,"", $FFTwaveNameR;
@@ -138,9 +136,7 @@ function displayTDS_FFT(fileName)
 	
 	string FFTwaveName = TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName;
-	resetGraph(graphName)
-	Display $FFTwaveName as graphName;
-	renameGraph(graphName)
+	createGraphY(FFTwaveName, graphName)
 	
 	styleFFT();
 	
@@ -157,9 +153,7 @@ function displayTDS_FFT_Range(fileName, xMin,xMax)
 	
 	string FFTwaveName = TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName + "_LimitedRange";
-	resetGraph(graphName)
-	Display $FFTwaveName as graphName;
-	renameGraph(graphName)
+	createGraphY(FFTwaveName, graphName)
 	
 	styleFFT();
 	
@@ -177,9 +171,7 @@ function displayTDS_FFT_Log(fileName)
 		
 	string FFTwaveName = TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName + "_Log";
-	resetGraph(graphName)
-	Display $FFTwaveName as graphName;
-	renameGraph(graphName)
+	createGraphY(FFTwaveName, graphName)
 	
 	styleFFT();
 	
@@ -216,9 +208,7 @@ function displayTDS_Trans_Range(transWave, fileName, xMin,xMax)
 	
 	string FFTwaveName = transWave//TDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName + "_LimitedRange";
-	resetGraph(graphName)
-	Display $FFTwaveName as graphName;
-	renameGraph(graphName)
+	createGraphY(FFTwaveName, graphName)
 	
 	styleTrans();
 	
@@ -249,10 +239,7 @@ function/S displayTrans_ID(sampleID, refID)
 	string sampleID, refID
 	string transData = transName(sampleID, refID)
 	
-	resetGraph(transData)
-	Display $transData as transData
-	renameGraph(transData)
-	
+	createGraphY(transData, transData)
 	
 	styleTrans()
 	SetScale/P x 0,10/Dimsize($transData,0),"", $transData
@@ -366,6 +353,14 @@ function createGraphXY(x, y, name)
 	
 	resetGraph(name)
 	Display $y vs $x as Name
+	renameGraph(name)
+end
+
+function createGraphY(y, name)
+	string y, name
+	
+	resetGraph(name)
+	Display $y as Name
 	renameGraph(name)
 end
 
