@@ -368,16 +368,13 @@ end
 function resetGraph(g)
 	string g
 	g = "G_"+g
-	print g
 	DoWindow $g
 	if (V_flag == 1)
 		// graph window exist
-		print "exist"
 		dowindow/k $g	// kill Graph
 		return 1
 	else
 		// graph window unexist
-		print "nothing"
 		return 0
 	endif
 end
@@ -388,15 +385,11 @@ function renameGraph(g)
 	DoWindow $g
 	if (V_flag == 1)
 		// graph window exist
-		print "err"
-			// kill Graph
+		print "err:" + g
 		return 1
 	else
 		// graph window unexist
-		print "nothing"
-		print winname(0,1)
 		DoWindow/C $g
-		print winname(0,1)
 		return 0
 	endif
 end
