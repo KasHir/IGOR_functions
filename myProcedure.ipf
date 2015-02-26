@@ -25,7 +25,7 @@ function create_TDS_GraphsSet(graphName, listNameR, listNameS)
 		x = nameWaveR[i] + label_time;
 		y = nameWaveR[i] + label_X;
 		
-		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
+		string FFTwaveNameR = calcTDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
 		
 		createGraphXY(x, y, graphName+"_TDS_set_"+num2str(i))
 		
@@ -63,7 +63,7 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 		y = nameWaveS[i] + label_X;
 		
 		// make a graph of Ref
-		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
+		string FFTwaveNameR = calcTDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
 		
 		createGraphY(FFTwaveNameR, graphName+"_FFT_set_"+num2str(i))
 		
@@ -72,7 +72,7 @@ function create_TDS_FFT_GraphsSet(graphName, listNameR, listNameS)
 		styleFFT();
 			
 		// append Sample data to the graph
-		string FFTwaveNameS = TDS_FFT(nameWaveS[i], nameWaveS[i]+label_time, nameWaveS[i]+label_X);
+		string FFTwaveNameS = calcTDS_FFT(nameWaveS[i], nameWaveS[i]+label_time, nameWaveS[i]+label_X);
 		AppendToGraph/C=(0,0,0) $FFTwaveNameS
 		fftScale = getFftScale(nameWaveS[i]+label_time, FFTwaveNameS);
 		SetScale/P x 0,fftScale,"", $FFTwaveNameS;
@@ -171,7 +171,7 @@ function/S display_TDS_FFT_Basic(fileName, addName)
 	string x = fileName+label_X;		// data before FFT
 	
 	// Calc and Create graph
-	string FFTwaveName = TDS_FFT(fileName, t, x);
+	string FFTwaveName = calcTDS_FFT(fileName, t, x);
 	string graphName = FFTwaveName + addName;
 	createGraphY(FFTwaveName, graphName)
 	
@@ -189,7 +189,7 @@ end
 // ---------------------------------------
 //   FFT
 // ---------------------------------------
-function/S TDS_FFT(fileName, t, x)
+function/S calcTDS_FFT(fileName, t, x)
 	string fileName, t, x;
 	
 	string FFTwaveName = x + "_FFT"
