@@ -114,7 +114,7 @@ end
 // ---------------------------------------
 //  display TDS
 // ---------------------------------------
-function displayTDSGraph(fileName)
+function/S displayTDSGraph(fileName)
 	string fileName
 	string x, y;
 	string/G label_time, label_X;
@@ -122,41 +122,49 @@ function displayTDSGraph(fileName)
 	x = fileName + label_time;
 	y = fileName + label_X;
 
-	createGraphXY(x, y, fileName+"_TD")
+	createGraphXY(x, y, fileName+"_TDS")
 
 	styleTDS();
+	
+	return fileName+"_TDS"
 end
 
 // ---------------------------------------
 //  display FFT
 // ---------------------------------------
-function displayTDS_FFT(fileName)
+function/S displayTDS_FFT(fileName)
 	string fileName;
 	
-	display_TDS_FFT_Basic(fileName, "")
+	string graphName = display_TDS_FFT_Basic(fileName, "")
+	
+	return graphName
 end
 
-function displayTDS_FFT_Range(fileName, xMin,xMax)
+function/S displayTDS_FFT_Range(fileName, xMin,xMax)
 	string fileName;
 	variable xMin, xMax;
 	
-	display_TDS_FFT_Basic(fileName, "_LimitedRange")
+	string graphName = display_TDS_FFT_Basic(fileName, "_LimitedRange")
 	
 	// change range
 	SetAxis bottom xMin,xMax	
+	
+	return graphName
 end
 
-function displayTDS_FFT_Log(fileName)
+function/S displayTDS_FFT_Log(fileName)
 	string fileName;
 	
-	display_TDS_FFT_Basic(fileName, "_Log")
+	string graphName = display_TDS_FFT_Basic(fileName, "_Log")
 	
 	// change log scale
 	ModifyGraph log(left)=1;DelayUpdate	
+	
+	return graphName
 end
 
 //  Common ----------------------------------
-function display_TDS_FFT_Basic(fileName, addName)
+function/S display_TDS_FFT_Basic(fileName, addName)
 	string fileName, addName
 	string/G label_time, label_X;	
 	string t = fileName+label_time;	// time data
@@ -173,6 +181,8 @@ function display_TDS_FFT_Basic(fileName, addName)
 	// Scale
 	variable fftScale = getFftScale(t, FFTwaveName);
 	SetScale/P x 0,fftScale,"", $FFTwaveName
+	
+	return graphName
 end
 
 
@@ -233,8 +243,6 @@ function/S transName(sampleID, refID)
 	string sampleID, refID
 	return "Trans_"+sampleID+ "_vs_"+refID
 end
-
-
 
 // =======================================
 //  Graph Style Tempate
