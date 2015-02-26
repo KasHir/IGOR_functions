@@ -202,22 +202,6 @@ end
 //  trans
 // ---------------------------------------
 
-function/S calcTrans(sample, ref, sampleID, refID)
-	string sample, ref, sampleID, refID
-	string fftID = "_X_FFT"
-	
-	wave sampleWave = $sample+fftID
-	wave refWave = $ref+fftID
-	variable dim = Dimsize(sampleWave,x)
-	Make /N=(dim)/D/O testWave; //Edit testWave;
-	testWave = sampleWave / refWave
-	
-	string myWave =transName(sampleID, refID)
-	Rename testWave,$myWave;
-	
-	return myWave
-end
-
 function/S displayTrans_ID(sampleFile, refFile, sampleID, refID)
 	string sampleFile, refFile
 	string sampleID, refID
@@ -237,6 +221,22 @@ function/S displayTrans_ID(sampleFile, refFile, sampleID, refID)
 	setAxis left 0, 1.5;
 	
 	return TransWaveName
+end
+
+function/S calcTrans(sample, ref, sampleID, refID)
+	string sample, ref, sampleID, refID
+	string fftID = "_X_FFT"
+	
+	wave sampleWave = $sample+fftID
+	wave refWave = $ref+fftID
+	variable dim = Dimsize(sampleWave,x)
+	Make /N=(dim)/D/O testWave; //Edit testWave;
+	testWave = sampleWave / refWave
+	
+	string myWave =transName(sampleID, refID)
+	Rename testWave,$myWave;
+	
+	return myWave
 end
 
 function/S transName(sampleID, refID)
