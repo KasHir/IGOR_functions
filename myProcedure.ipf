@@ -27,9 +27,7 @@ function create_TDS_GraphsSet(graphName, listNameR, listNameS)
 		
 		string FFTwaveNameR = TDS_FFT(nameWaveR[i], nameWaveR[i]+label_time, nameWaveR[i]+label_X);
 		
-		resetGraph(graphName+"_TDS_set_"+num2str(i))
-		Display $y vs $x as graphName+"_TDS_set_"+num2str(i);
-		renameGraph(graphName+"_TDS_set_"+num2str(i))
+		createGraphXY(x, y, graphName+"_TDS_set_"+num2str(i))
 		
 		styleTDS();
 		ModifyGraph lstyle($y)=3
@@ -126,9 +124,7 @@ function displayTDSGraph(fileName)
 	x = fileName + label_time;
 	y = fileName + label_X;
 
-	resetGraph(fileName+"_TD")
-	Display $y vs $x as fileName+"_TD";
-	renameGraph(fileName+"_TD")
+	createGraphXY(x, y, fileName+"_TD")
 
 	styleTDS();
 end
@@ -257,6 +253,7 @@ function/S displayTrans_ID(sampleID, refID)
 	Display $transData as transData
 	renameGraph(transData)
 	
+	
 	styleTrans()
 	SetScale/P x 0,10/Dimsize($transData,0),"", $transData
 	
@@ -358,6 +355,18 @@ end
 
 function refresh()
 	KillWaves/A/Z
+end
+
+// ---------------------------------------
+//  Create Generate
+// ---------------------------------------
+
+function createGraphXY(x, y, name)
+	string x, y, name
+	
+	resetGraph(name)
+	Display $y vs $x as Name
+	renameGraph(name)
 end
 
 // If Graph exists already, Kill it once
