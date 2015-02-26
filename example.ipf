@@ -16,8 +16,9 @@ function callLoop()
 end
 
 function loopFunc(listName)
-	string listName// = "ref";
+	string listName// e.g. "ref";
 
+	string graphName	// as save name
 	variable xMin, xMax
 	
 	variable i	
@@ -27,32 +28,43 @@ function loopFunc(listName)
 	for(i=0;i<last;i+=1)
 		
 		// load files
-		//  ! ! ! If data has been ALREADY LOADED, you should COMMENT OUT "loadtextFileAsTDS ! ! !
 		string fileName = nameWave[i];
 		print fileName
-		loadtextFileAsTDS(fileName);	// 
+		loadtextFileAsTDS(fileName);
 		
 		//---------------------------------
 		// make and save TDS Graphs
-		print displayTDSGraph(fileName);
 		
+		// 1. display
+		graphName = displayTDSGraph(fileName);
 		
+		// 2. option
 		xMin = -0.006
 		xMax = 0.008
 		SetAxis left xMin, xMax
 		
-		//saveFunc(fileName, ".png")
+		// 3. save Image File
+		//saveFunc(graphName, ".png")
 		
 
 		//----------------------------------
 		// make and save TDS FFT Graph as Log
-		print displayTDS_FFT_Range(fileName, 0, 1.0);
-		//saveFunc(fileName, ".png")
+		
+		// 1. display
+		graphName = displayTDS_FFT_Range(fileName, 0, 1.0);
+		
+		// 2. option
+		
+		// 3. save Image File
+		saveFunc(graphName, ".png")
 		
 		//----------------------------------
 		// make and save TDS FFT Graph as Log
-		print displayTDS_FFT_Log(fileName);
+		
+		// 1. display
+		graphName =  displayTDS_FFT_Log(fileName);
 			
+		// 2. option
 		//xMin = 0
 		//xMax = 4
 		//SetAxis bottom xMin, xMax
@@ -61,7 +73,8 @@ function loopFunc(listName)
 		//xMax = 0.1
 		//SetAxis left xMin, xMax
 		
-		//saveFunc(fileName, ".png");
+		// 3. save Image File
+		//saveFunc(graphName, ".png");
 
 	endfor
 end
@@ -72,6 +85,7 @@ function loopForTrans(listNameR, listNameS, ID_ref, ID_sample)
 	string ID_ref 		//
 	string ID_sample	// like sampleNumber
 	
+	string graphName	// as save name
 	variable xMin, xMax
 	
 	variable i	
@@ -83,9 +97,15 @@ function loopForTrans(listNameR, listNameS, ID_ref, ID_sample)
 		string fileNameR = nameWaveR[i];
 		string fileNameS = nameWaveS[i]; 
 
-//		calcTrans(fileNameS, fileNameR, ID_sample +"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
-		string fileName = displayTrans_ID(fileNameS, fileNameR, ID_sample+"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
-				
-		//saveFunc(fileName, ".png")
+		//----------------------------------
+		// make and save Transmittans Graph
+		
+		// 1. display
+		graphName = displayTrans_ID(fileNameS, fileNameR, ID_sample+"_"+ num2str(i+1), ID_ref+"_"+ num2str(i+1))
+		
+		// 2. option
+		
+		// 3. save Image File
+		//saveFunc(graphName, ".png")
 	endfor
 end
