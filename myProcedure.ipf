@@ -92,7 +92,7 @@ end
 // =======================================
 function saveFunc(fileName, extension)
 	string fileName, extension
-	SavePICT/O/P=IGOR/E=-5/B=288 as fileName+extension
+	SavePICT/O/P=savePath/E=-5/B=288 as fileName+extension
 end
 
 function init(path)
@@ -101,7 +101,9 @@ function init(path)
 	string/G label_time = "_Time";
 	string/G label_X = "_X";
 	string/G label_Y = "_Y";
-	string/G label_Aux = "_Aux";	
+	string/G label_Aux = "_Aux";
+	
+	newPath/O savePath, getHomePath()+"save"
 end
 
 function loadTextFileAsTDS(fileName)
