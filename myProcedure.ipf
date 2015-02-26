@@ -112,7 +112,7 @@ function loadTextFileAsTDS(fileName)
 end
 
 // ---------------------------------------
-//  display 
+//  display TDS
 // ---------------------------------------
 function displayTDSGraph(fileName)
 	string fileName
@@ -127,58 +127,49 @@ function displayTDSGraph(fileName)
 	styleTDS();
 end
 
-
+// ---------------------------------------
+//  display FFT
+// ---------------------------------------
 function displayTDS_FFT(fileName)
 	string fileName;
-	string/G label_time, label_X;
-	string t = fileName+label_time;	// time data
-	string x = fileName+label_X;		// data before FFT
 	
-	string FFTwaveName = TDS_FFT(fileName, t, x);
-	string graphName = FFTwaveName;
-	createGraphY(FFTwaveName, graphName)
-	
-	styleFFT();
-	
-	variable fftScale = getFftScale(t, FFTwaveName);
-	SetScale/P x 0,fftScale,"", $FFTwaveName;
+	display_TDS_FFT_Basic(fileName, "")
 end
 
 function displayTDS_FFT_Range(fileName, xMin,xMax)
 	string fileName;
 	variable xMin, xMax;
-	string/G label_time, label_X;
+	
+	display_TDS_FFT_Basic(fileName, "_LimitedRange")
+	
+	// change range
+	SetAxis bottom xMin,xMax	
+end
+
+function displayTDS_FFT_Log(fileName)
+	string fileName;
+	
+	display_TDS_FFT_Basic(fileName, "_Log")
+	
+	// change log scale
+	ModifyGraph log(left)=1;DelayUpdate	
+end
+
+//  Common ----------------------------------
+function display_TDS_FFT_Basic(fileName, addName)
+	string fileName, addName
+	string/G label_time, label_X;	
 	string t = fileName+label_time;	// time data
 	string x = fileName+label_X;		// data before FFT
 	
 	string FFTwaveName = TDS_FFT(fileName, t, x);
-	string graphName = FFTwaveName + "_LimitedRange";
+	string graphName = FFTwaveName + addName;
 	createGraphY(FFTwaveName, graphName)
 	
 	styleFFT();
 	
 	variable fftScale = getFftScale(t, FFTwaveName);
 	SetScale/P x 0,fftScale,"", $FFTwaveName
-	
-	SetAxis bottom xMin,xMax;
-end
-
-function displayTDS_FFT_Log(fileName)
-	string fileName;
-	string/G label_time, label_X;
-	string t = fileName+label_time;	// time data
-	string x = fileName+label_X;		// data before FFT
-		
-	string FFTwaveName = TDS_FFT(fileName, t, x);
-	string graphName = FFTwaveName + "_Log";
-	createGraphY(FFTwaveName, graphName)
-	
-	styleFFT();
-	
-	variable fftScale = getFftScale(t, FFTwaveName);
-	SetScale/P x 0,fftScale,"", $FFTwaveName;
-	
-	ModifyGraph log(left)=1;DelayUpdate
 end
 
 
