@@ -6,4 +6,4 @@
 
 - ascii
 
-If you want to change data directory, write init("<data path>").
+If you want to change data directory, rewrite init("<data path>").
